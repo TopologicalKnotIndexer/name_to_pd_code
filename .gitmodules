@@ -1,0 +1,6 @@
+[submodule "src/pd_code_list"]
+	path = src/pd_code_list
+	url = git@github.com:TopologicalKnotIndexer/pd_code_list.git
+[submodule "src/connected_sum"]
+	path = src/connected_sum
+	url = git@github.com:TopologicalKnotIndexer/connected_sum.git
