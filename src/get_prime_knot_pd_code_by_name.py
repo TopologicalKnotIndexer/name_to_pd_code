@@ -2,9 +2,11 @@
 # 用于获取素扭结的名称
 import os
 import re
-DIRNOW      = os.path.dirname(os.path.abspath(__file__))
-PDCODE_FILE = os.path.join(DIRNOW, "pd_code_list", "data", "pd_code_list.txt")
+DIRNOW       = os.path.dirname(os.path.abspath(__file__))
+PDCODE_FILE  = os.path.join(DIRNOW, "pd_code_list", "data", "pd_code_list.txt")
+NMIRROR_FILE = os.path.join(DIRNOW, "need_mirror.txt")
 assert os.path.isfile(PDCODE_FILE) # 检查数据文件是否存在
+assert os.path.isfile(NMIRROR_FILE)
 
 def __get_prime_knot_file_dict() -> dict: # 从文件中读取出扭结名称到 pd_code 的对应关系
     get_pd_code = {}
@@ -26,8 +28,13 @@ def __get_mirror_pd_code(pd_code: list) -> list: # 计算扭结的镜像扭结
         new_pd_code.append([a, d, c, b])
     return new_pd_code
 
+def is_neg_writhe_knot(basename): # 判断某个素扭结是否需要 writhe 正负性修正
+    assert re.match(r"^K\d+(a|n)\d+$", basename) is not None # 检查扭结名称的合法性
+    return basename in [x.strip() for x in list(open(NMIRROR_FILE))]
+
 def get_prime_knot_pd_code_by_name(knotname: str) -> list: # 给定一个扭结名称，获取其 PD_CODE，可以处理镜像扭结
     knotname = knotname.strip()
+    basename = knotname.split("m")[-1] # 删除前导 m
     assert re.match(r"^(m|)K\d+(a|n)\d+$", knotname) is not None # 检查扭结名称的合法性
     get_pd_code = __get_prime_knot_file_dict()
     mirror = False
@@ -36,9 +43,14 @@ def get_prime_knot_pd_code_by_name(knotname: str) -> list: # 给定一个扭结�
         mirror   = True         # 最后需要记得将扭结做镜面反转
     assert get_pd_code.get(knotname) is not None
     pd_code = get_pd_code[knotname]
+    if is_neg_writhe_knot(basename): # 判断是否需要进行 writhe 修正
+        mirror = not mirror
     if mirror:
         pd_code = __get_mirror_pd_code(pd_code) # 计算镜像扭结的 PD_CODE
     return pd_code
 
 if __name__ == "__main__": # 测试
+    print(get_prime_knot_pd_code_by_name("K7a7"))
+    print(get_prime_knot_pd_code_by_name("mK7a7"))
+    print(get_prime_knot_pd_code_by_name("K3a1"))
     print(get_prime_knot_pd_code_by_name("mK3a1"))
