@@ -1,13 +1,22 @@
-# 从标准输入输入一个扭结名称
-# 如果扭结名称合法则输出这个扭结的 PD_CODE
-# 如果扭结名称不合法或者出现了 pd_code_list 中未定义的素扭结分量则报错
+"""Command-line interface for name_to_pd_code."""
 
 import sys
+
 from get_knot_pd_code_by_name import get_knot_pd_code_by_name
 
-def main(): # 获取扭结的 PD_CODE 并输出到标准输出流
-    inp = sys.stdin.read().strip()
-    print(get_knot_pd_code_by_name(inp))
+
+def main() -> int:
+    name = sys.stdin.buffer.read().decode("utf-8-sig").strip()
+    if not name:
+        print("error: expected a knot name on standard input", file=sys.stderr)
+        return 2
+    try:
+        print(get_knot_pd_code_by_name(name))
+    except (FileNotFoundError, KeyError, TypeError, ValueError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
