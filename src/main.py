@@ -2,7 +2,10 @@
 
 import sys
 
-from get_knot_pd_code_by_name import get_knot_pd_code_by_name
+try:
+    from .get_knot_pd_code_by_name import get_knot_pd_code_by_name
+except ImportError:  # Direct execution from the src directory.
+    from get_knot_pd_code_by_name import get_knot_pd_code_by_name
 
 
 def main() -> int:

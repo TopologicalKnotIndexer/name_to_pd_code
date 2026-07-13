@@ -1,6 +1,9 @@
 """Static compatibility wrapper for the bundled connected-sum algorithm."""
 
-from connected_sum.src.connected_sum import connected_sum
+try:
+    from .connected_sum.src.connected_sum import connected_sum
+except ImportError:  # Direct execution from the src directory.
+    from connected_sum.src.connected_sum import connected_sum
 
 
 def solve_connected_sum(

@@ -1,10 +1,17 @@
 """Resolve prime or composite knot names to PD codes."""
 
-from get_prime_knot_pd_code_by_name import (
-    _parse_prime_name,
-    get_prime_knot_pd_code_by_name,
-)
-from solve_connected_sum import solve_connected_sum
+try:
+    from .get_prime_knot_pd_code_by_name import (
+        _parse_prime_name,
+        get_prime_knot_pd_code_by_name,
+    )
+    from .solve_connected_sum import solve_connected_sum
+except ImportError:  # Direct execution from the src directory.
+    from get_prime_knot_pd_code_by_name import (
+        _parse_prime_name,
+        get_prime_knot_pd_code_by_name,
+    )
+    from solve_connected_sum import solve_connected_sum
 
 
 def get_knot_pd_code_by_name(composite_knot_name: str) -> list[list[int]]:
