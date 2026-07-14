@@ -65,3 +65,16 @@ python -m unittest discover -s tests -v
 ```
 
 No PyPI publication is performed as part of repository maintenance.
+
+## Citation
+
+If you use this repository in academic work, please cite it as:
+
+```bibtex
+@software{topologicalknotindexer_name_to_pd_code,
+  author = {{TopologicalKnotIndexer contributors}},
+  title = {{name\_to\_pd\_code}},
+  year = {2026},
+  url = {https://github.com/TopologicalKnotIndexer/name_to_pd_code}
+}
+```
